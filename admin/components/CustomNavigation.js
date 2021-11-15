@@ -8,6 +8,7 @@ export function CustomNavigation({ lists, authenticatedItem }) {
       <NavItem href="/">Dashboard</NavItem>
       <Divider marginY="small" />
       <NavItem href="/upload-tasks">Upload Tasks</NavItem>
+      <NavItem href="/download-tasks">Download Tasks</NavItem>
       <Divider marginY="small" />
       <ListNavItems lists={lists} />
     </NavigationContainer>

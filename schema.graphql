@@ -301,7 +301,7 @@ type Mutation {
   deletePeople(where: [PersonWhereUniqueInput!]!): [Person]
   createTaskUpload(data: TaskUploadCreateInput!): TaskUpload
   createTaskUploads(data: [TaskUploadCreateInput!]!): [TaskUpload]
-  updateTaskUpload(
+  updateTaskUpload(x
     where: TaskUploadWhereUniqueInput!
     data: TaskUploadUpdateInput!
   ): TaskUpload

@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import { gql, useMutation } from '@apollo/client';
 import { PageContainer } from '@keystone-next/keystone/admin-ui/components';
-import { jsx, Heading, Stack, Text, Divider } from '@keystone-ui/core';
+import { jsx, Heading, Stack, Text } from '@keystone-ui/core';
 import { Button } from '@keystone-ui/button';
 import { useToasts } from '@keystone-ui/toast';
 
