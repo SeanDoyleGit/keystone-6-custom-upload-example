@@ -46,8 +46,8 @@ export default function CustomPage() {
 }
 
 const CREATE_FILE_UPLOAD = gql`
-  mutation ($data: PreviousTaskUploadCreateInput!) {
-    createPreviousTaskUpload(data: $data) {
+  mutation ($data: TaskUploadCreateInput!) {
+    createTaskUpload(data: $data) {
       file {
         filename
       }
