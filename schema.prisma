@@ -30,7 +30,7 @@ model Person {
   tasks Task[] @relation("Task_assignedTo")
 }
 
-model FileUpload {
+model TaskUpload {
   id            String   @id @default(cuid())
   file_filesize Int?
   file_mode     String?

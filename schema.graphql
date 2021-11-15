@@ -205,7 +205,7 @@ input TaskRelateToManyForCreateInput {
   connect: [TaskWhereUniqueInput!]
 }
 
-type FileUpload {
+type TaskUpload {
   id: ID!
   file: FileFieldOutput
   createdAt: DateTime
@@ -218,7 +218,7 @@ interface FileFieldOutput {
   src: String!
 }
 
-input FileUploadWhereUniqueInput {
+input TaskUploadWhereUniqueInput {
   id: ID
 }
 
@@ -229,10 +229,10 @@ type LocalFileFieldOutput implements FileFieldOutput {
   src: String!
 }
 
-input FileUploadWhereInput {
-  AND: [FileUploadWhereInput!]
-  OR: [FileUploadWhereInput!]
-  NOT: [FileUploadWhereInput!]
+input TaskUploadWhereInput {
+  AND: [TaskUploadWhereInput!]
+  OR: [TaskUploadWhereInput!]
+  NOT: [TaskUploadWhereInput!]
   id: IDFilter
   createdAt: DateTimeFilter
 }
@@ -248,12 +248,12 @@ input DateTimeFilter {
   not: DateTimeFilter
 }
 
-input FileUploadOrderByInput {
+input TaskUploadOrderByInput {
   id: OrderDirection
   createdAt: OrderDirection
 }
 
-input FileUploadUpdateInput {
+input TaskUploadUpdateInput {
   file: FileFieldInput
   createdAt: DateTime
 }
@@ -268,12 +268,12 @@ The `Upload` scalar type represents a file upload.
 """
 scalar Upload
 
-input FileUploadUpdateArgs {
-  where: FileUploadWhereUniqueInput!
-  data: FileUploadUpdateInput!
+input TaskUploadUpdateArgs {
+  where: TaskUploadWhereUniqueInput!
+  data: TaskUploadUpdateInput!
 }
 
-input FileUploadCreateInput {
+input TaskUploadCreateInput {
   file: FileFieldInput
   createdAt: DateTime
 }
@@ -299,15 +299,15 @@ type Mutation {
   updatePeople(data: [PersonUpdateArgs!]!): [Person]
   deletePerson(where: PersonWhereUniqueInput!): Person
   deletePeople(where: [PersonWhereUniqueInput!]!): [Person]
-  createFileUpload(data: FileUploadCreateInput!): FileUpload
-  createFileUploads(data: [FileUploadCreateInput!]!): [FileUpload]
-  updateFileUpload(
-    where: FileUploadWhereUniqueInput!
-    data: FileUploadUpdateInput!
-  ): FileUpload
-  updateFileUploads(data: [FileUploadUpdateArgs!]!): [FileUpload]
-  deleteFileUpload(where: FileUploadWhereUniqueInput!): FileUpload
-  deleteFileUploads(where: [FileUploadWhereUniqueInput!]!): [FileUpload]
+  createTaskUpload(data: TaskUploadCreateInput!): TaskUpload
+  createTaskUploads(data: [TaskUploadCreateInput!]!): [TaskUpload]
+  updateTaskUpload(
+    where: TaskUploadWhereUniqueInput!
+    data: TaskUploadUpdateInput!
+  ): TaskUpload
+  updateTaskUploads(data: [TaskUploadUpdateArgs!]!): [TaskUpload]
+  deleteTaskUpload(where: TaskUploadWhereUniqueInput!): TaskUpload
+  deleteTaskUploads(where: [TaskUploadWhereUniqueInput!]!): [TaskUpload]
 }
 
 type Query {
@@ -327,14 +327,14 @@ type Query {
   ): [Person!]
   person(where: PersonWhereUniqueInput!): Person
   peopleCount(where: PersonWhereInput! = {}): Int
-  fileUploads(
-    where: FileUploadWhereInput! = {}
-    orderBy: [FileUploadOrderByInput!]! = []
+  taskUploads(
+    where: TaskUploadWhereInput! = {}
+    orderBy: [TaskUploadOrderByInput!]! = []
     take: Int
     skip: Int! = 0
-  ): [FileUpload!]
-  fileUpload(where: FileUploadWhereUniqueInput!): FileUpload
-  fileUploadsCount(where: FileUploadWhereInput! = {}): Int
+  ): [TaskUpload!]
+  taskUpload(where: TaskUploadWhereUniqueInput!): TaskUpload
+  taskUploadsCount(where: TaskUploadWhereInput! = {}): Int
   keystone: KeystoneMeta!
 }
 

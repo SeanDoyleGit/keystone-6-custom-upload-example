@@ -1,6 +1,7 @@
 import { list } from '@keystone-next/keystone';
 import { checkbox, file, relationship, text, timestamp } from '@keystone-next/keystone/fields';
 import { select } from '@keystone-next/keystone/fields';
+import { parseCSV } from './lib/parse-csv';
 
 export const lists = {
   Task: list({
@@ -25,7 +26,8 @@ export const lists = {
       tasks: relationship({ ref: 'Task.assignedTo', many: true }),
     },
   }),
-  FileUpload: list({
+  TaskUpload: list({
+    ui: { hideCreate: true },
     fields: {
       file: file({}),
       createdAt: timestamp({
@@ -34,7 +36,22 @@ export const lists = {
       }),
     },
     hooks: {
-      beforeOperation: async ({ resolvedData, context }) => {},
+      afterOperation: async ({ inputData, context }) => {
+        const file = await inputData.file.upload;
+        const data = await parseCSV(file);
+
+        const tasks = await context.query.Task.createMany({
+          data: data.map((task) => ({
+            ...task,
+            isComplete: task.isComplete === 'TRUE',
+            finishBy: new Date(task.finishBy),
+            assignedTo: { connect: { id: task.assignedTo } },
+          })),
+          query: 'id label priority finishBy',
+        });
+
+        console.log(tasks);
+      },
     },
   }),
 };
