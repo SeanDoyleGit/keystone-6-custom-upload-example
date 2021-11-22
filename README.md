@@ -2,7 +2,7 @@
 
 This project is forked from the [Custom Admin UI Pages](https://github.com/keystonejs/keystone/tree/main/examples/custom-admin-ui-pages) project.
 
-It demonstrates how to build a custom Upload Tasks page and a custom Download Tasks page in the Admin UI for Keystone 6.
+It demonstrates how to build a custom "Upload Tasks" page and a custom "Download Tasks" page in the Admin UI for Keystone 6.
 
 It builds on the [Task Manager](../task-manager) starter project.
 
@@ -10,15 +10,15 @@ It builds on the [Task Manager](../task-manager) starter project.
 
 Navigate to [localhost:3000/upload-tasks](localhost:3000/upload-tasks)
 
-The upload tasks page allows you to create large number of tasks by uploading `.csv` file. The `.csv` file needs to have the headings `label`, `priority`, `isComplete`, `assignedTo`, and `finishBy`.
+The upload tasks page allows you to create large number of tasks by uploading a `.csv` file. The `.csv` file needs to have the headings `label`, `priority`, `isComplete`, `assignedTo`, and `finishBy`.
 
-All files that are uploaded added to the `TaskUpload` list and are stored locally under `public/files`.
+All files that are uploaded are added to the `TaskUpload` list and are stored locally under `public/files`.
 
 ### Download Tasks Page
 
 Navigate to [localhost:3000/download-tasks](localhost:3000/download-tasks)
 
-The download tasks page allows you to export all the tasks that are stored in the database into `.csv` file . The `.csv` file will have the headings `label`, `priority`, `isComplete`, `assignedTo`, and `finishBy`.
+The download tasks page allows you to export all the tasks that are stored in the database into a `.csv` file. The `.csv` file will have the headings `label`, `priority`, `isComplete`, `assignedTo`, and `finishBy`.
 
 ## Instructions
 
