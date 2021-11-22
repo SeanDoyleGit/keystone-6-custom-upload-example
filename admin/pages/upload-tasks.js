@@ -1,18 +1,53 @@
 /** @jsxRuntime classic */
 /** @jsx jsx */
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { gql, useMutation } from '@apollo/client';
 import { PageContainer } from '@keystone-next/keystone/admin-ui/components';
-import { jsx, Heading, Stack, Text } from '@keystone-ui/core';
 import { Button } from '@keystone-ui/button';
+import { jsx, Heading, Stack, Text } from '@keystone-ui/core';
+import { Notice } from '@keystone-ui/notice';
 import { useToasts } from '@keystone-ui/toast';
+import parse from 'csv-parse/lib/sync';
 
 import { FileInput } from '../components/FileInput';
 
+function validateFile(file) {
+  return new Promise((resolve) => {
+    const reader = new FileReader();
+    reader.onload = function (e) {
+      const fileData = new Uint8Array(e.target.result);
+      const data = parse(fileData);
+
+      const errors = [];
+      const headings = data[0];
+
+      ['label', 'priority', 'isComplete', 'assignedTo', 'finishBy'].forEach((headingName) => {
+        if (!headings.find((heading) => heading === headingName)) {
+          errors.push(`Error: File is missing heading "${headingName}"`);
+        }
+      });
+
+      headings.forEach((heading) => {
+        if (!['label', 'priority', 'isComplete', 'assignedTo', 'finishBy'].includes(heading)) {
+          errors.push(`Error: Found invalid heading "${heading}"`);
+        }
+      });
+
+      resolve(errors);
+    };
+    reader.readAsArrayBuffer(file);
+  });
+}
+
 export default function CustomPage() {
   const [file, setFile] = useState();
+  const [errors, setErrors] = useState([]);
   const [uploadFile] = useMutation(CREATE_FILE_UPLOAD);
   const { addToast } = useToasts();
+
+  useEffect(() => {
+    setErrors([]);
+  }, [file]);
 
   const handleFileChange = (value) => {
     setFile(value);
@@ -20,6 +55,12 @@ export default function CustomPage() {
 
   const handleFileUpload = async () => {
     try {
+      const fileErrors = await validateFile(file);
+      if (fileErrors.length) {
+        setErrors(fileErrors);
+        return;
+      }
+
       await uploadFile({ variables: { data: { file: { upload: file } } } });
       addToast({ title: 'Successfully uploaded tasks', tone: 'positive' });
       setFile(null);
@@ -37,9 +78,18 @@ export default function CustomPage() {
       </Stack>
       <Stack gap="small">
         <FileInput accept=".csv" value={file} onChange={handleFileChange} />
-        <Button isDisabled={!file} onClick={handleFileUpload}>
+        <Button isDisabled={!file || errors.length} onClick={handleFileUpload}>
           Upload Tasks
         </Button>
+        {errors && (
+          <Stack gap="small">
+            {errors.map((error) => (
+              <Notice tone="negative" key={error}>
+                {error}
+              </Notice>
+            ))}
+          </Stack>
+        )}
       </Stack>
     </PageContainer>
   );
