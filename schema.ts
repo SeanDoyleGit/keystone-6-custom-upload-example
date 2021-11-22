@@ -37,6 +37,10 @@ export const lists = {
     },
     hooks: {
       afterOperation: async ({ inputData, context }) => {
+        if (!inputData || !inputData.file || !inputData.file.upload) {
+          return;
+        }
+
         const file = await inputData.file.upload;
         const data = await parseCSV(file);
 
@@ -49,8 +53,6 @@ export const lists = {
           })),
           query: 'id label priority finishBy',
         });
-
-        console.log(tasks);
       },
     },
   }),
