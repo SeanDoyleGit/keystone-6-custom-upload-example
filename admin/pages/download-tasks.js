@@ -1,5 +1,6 @@
 /** @jsxRuntime classic */
 /** @jsx jsx */
+import { useRef } from 'react';
 import { gql, useApolloClient } from '@apollo/client';
 import { PageContainer } from '@keystone-next/keystone/admin-ui/components';
 import { jsx, Heading, Stack, Text } from '@keystone-ui/core';
@@ -7,12 +8,13 @@ import { Button } from '@keystone-ui/button';
 import stringify from 'csv-stringify/lib/sync';
 
 export default function CustomPage() {
+  const downloadLink = useRef();
   const apolloClient = useApolloClient();
 
   const handleFileDownload = async () => {
     const {
       data: { tasks },
-    } = await apolloClient.query({ query: GET_TASKS, variables: { where: {} } });
+    } = await apolloClient.query({ query: GET_TASKS, variables: { where: {} }, fetchPolicy: 'no-cache' });
 
     const records = [['label', 'priority', 'isComplete', 'assignedTo', 'finishBy']];
     tasks.forEach((task) =>
@@ -22,13 +24,9 @@ export default function CustomPage() {
     const data = stringify(records);
     const encodedUri = encodeURI('data:text/csv;charset=utf-8,' + data);
 
-    const element = document.createElement('a');
-    element.setAttribute('href', encodedUri);
-    element.setAttribute('download', `tasks-${new Date().toISOString()}.csv`);
-    document.body.appendChild(element);
-
-    element.click();
-    document.body.removeChild(element);
+    downloadLink.current.setAttribute('href', encodedUri);
+    downloadLink.current.setAttribute('download', `tasks-${new Date().toISOString()}.csv`);
+    downloadLink.current.click();
   };
 
   return (
@@ -40,6 +38,7 @@ export default function CustomPage() {
       </Stack>
       <Stack gap="small">
         <Button onClick={handleFileDownload}>Download Tasks</Button>
+        <Button ref={downloadLink} as="a" css={{ display: 'none' }} />
       </Stack>
     </PageContainer>
   );

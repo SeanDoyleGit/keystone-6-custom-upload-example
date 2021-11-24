@@ -3,7 +3,7 @@
 import { Fragment, useEffect, useRef } from 'react';
 
 import { jsx, Stack } from '@keystone-ui/core';
-import { FieldContainer, FieldLabel } from '@keystone-ui/fields';
+import { FieldContainer } from '@keystone-ui/fields';
 
 import { Button } from '@keystone-ui/button';
 
